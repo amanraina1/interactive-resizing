@@ -1,16 +1,21 @@
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 
 const initialValues = reactive({
   startX: "",
   startY: "",
 });
 
-const props = defineProps({
+defineProps({
   title: String,
   body: String,
 });
-const emit = defineEmits(["resize-left", "resize-right"]);
+const emit = defineEmits([
+  "resize-left",
+  "resize-right",
+  "resize-up",
+  "resize-down",
+]);
 
 const GRID_THESHOLD = 120;
 
@@ -24,6 +29,16 @@ const handleResize = (e) => {
     emit("resize-right");
     initialValues.startX = e.clientX;
   }
+
+  if (initialValues.startY - e.clientY >= GRID_THESHOLD) {
+    emit("resize-up");
+    initialValues.startY = e.clientY;
+  }
+
+  if (initialValues.startY - e.clientY <= -GRID_THESHOLD) {
+    emit("resize-down");
+    initialValues.startY = e.clientY;
+  }
 };
 
 const endResize = () => {
@@ -34,6 +49,7 @@ const endResize = () => {
 const initResize = (e) => {
   e.preventDefault();
   initialValues.startX = e.clientX;
+  initialValues.startY = e.clientY;
 
   window.addEventListener("mousemove", handleResize);
   window.addEventListener("mouseup", endResize);

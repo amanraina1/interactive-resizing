@@ -48,6 +48,17 @@ const decreaseWidth = (card) => {
     card.widthIndex--;
   }
 };
+
+const increaseHeight = (card) => {
+  if (card.heightIndex < 3) {
+    card.heightIndex++;
+  }
+};
+const decreaseHeight = (card) => {
+  if (card.heightIndex > 0) {
+    card.heightIndex--;
+  }
+};
 </script>
 
 <template>
@@ -67,6 +78,8 @@ const decreaseWidth = (card) => {
             :body="card.body"
             @resize-left="decreaseWidth(card)"
             @resize-right="increaseWidth(card)"
+            @resize-up="decreaseHeight(card)"
+            @resize-down="increaseHeight(card)"
           />
         </div>
       </div>
