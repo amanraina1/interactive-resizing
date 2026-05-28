@@ -1,20 +1,28 @@
 <script setup>
-import { ref } from "vue";
-const startX = ref("");
+import { reactive, ref } from "vue";
 
+const initialValues = reactive({
+  startX: "",
+  startY: "",
+});
+
+const props = defineProps({
+  title: String,
+  body: String,
+});
 const emit = defineEmits(["resize-left", "resize-right"]);
 
 const GRID_THESHOLD = 120;
 
 const handleResize = (e) => {
-  if (startX.value - e.clientX >= GRID_THESHOLD) {
+  if (initialValues.startX - e.clientX >= GRID_THESHOLD) {
     emit("resize-left");
-    startX.value = e.clientX;
+    initialValues.startX = e.clientX;
   }
 
-  if (startX.value - e.clientX <= -GRID_THESHOLD) {
+  if (initialValues.startX - e.clientX <= -GRID_THESHOLD) {
     emit("resize-right");
-    startX.value = e.clientX;
+    initialValues.startX = e.clientX;
   }
 };
 
@@ -25,7 +33,7 @@ const endResize = () => {
 
 const initResize = (e) => {
   e.preventDefault();
-  startX.value = e.clientX;
+  initialValues.startX = e.clientX;
 
   window.addEventListener("mousemove", handleResize);
   window.addEventListener("mouseup", endResize);
@@ -33,12 +41,12 @@ const initResize = (e) => {
 </script>
 
 <template>
-  <div class="card card-light h-100 w-100">
+  <div class="card card-light w-100 h-100">
     <div class="card-header">
-      <div class="card-title">hello</div>
+      <div class="card-title">{{ title }}</div>
     </div>
 
-    <div class="card-body">This is the card content</div>
+    <div class="card-body">{{ body }}</div>
 
     <div class="card-footer">
       <button class="btn btn-primary">Button</button>
