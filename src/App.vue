@@ -62,12 +62,12 @@ const decreaseHeight = (card) => {
 </script>
 
 <template>
-  <div class="col-md-12 container-box p-4">
+  <div class="col-md-12 container-box p-2">
     <div class="container border rounded-3 d-flex flex-column gap-2 p-3">
       <nav class="p-2">This is my test resizabe card practical</nav>
-      <div class="d-flex flex-wrap">
+      <div class="row g-3">
         <div
-          class="container-body transition-width"
+          class="container-body transition-width m-2"
           :key="card.id"
           v-for="card in cards"
           :class="getBootstrapedWidthClass(card.widthIndex)"
@@ -100,6 +100,7 @@ nav {
 
 .container {
   height: 100%;
+  overflow: scroll;
 }
 
 .transition-width {
